@@ -1,11 +1,13 @@
 package com.example.getorientation;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +70,22 @@ public class MainActivity extends AppCompatActivity {
         };
         sensorManager.registerListener(listener, magSensor, SensorManager.SENSOR_DELAY_UI);
         sensorManager.registerListener(listener, accSensor, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            sensorManager.unregisterListener(listener);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            sensorManager.registerListener(listener);
+        }
     }
 
     private float radian2Degree(float radian) {
