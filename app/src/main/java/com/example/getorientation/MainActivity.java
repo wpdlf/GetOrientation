@@ -75,17 +75,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             sensorManager.unregisterListener(listener);
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            sensorManager.registerListener(listener);
-        }
+            sensorManager.registerListener(listener, magSensor, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(listener, accSensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     private float radian2Degree(float radian) {
